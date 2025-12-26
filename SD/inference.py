@@ -119,6 +119,10 @@ def evalMetrics(dataset, start_index=0, device="cuda:0", args=None):
             fid_metric.update(pil_list_to_uint8_batch(real_images_batch, device), real=False,)
 
             for j in range(len(gen_images_batch)):
+                # Save images
+                os.makedirs(f"images/{args.lora_model}", exist_ok=True)
+                gen_images_batch[j].save(f"images/{args.lora_model}/image_{start_index + i + j}.jpg")
+
                 metric = {
                     "index": start_index + i + j,
                     "prompt": texts[i + j],
@@ -158,6 +162,6 @@ if __name__ == "__main__":
     print("Metrics:", Metrics)
     
     LORA_dir = "/mnt/zhangchen/S3Precision/AIGC/SD/checkpoint/"     # Lora model dir
-    lora_path = LORA_dir + args.lora_model
+    lora_path = LORA_dir + args.lora_model + "/Metrics.json"
     with open(lora_path, "w", encoding="utf-8") as f:
         json.dump(Metrics, f, indent=2, ensure_ascii=False)

@@ -308,6 +308,18 @@ def parse_args(input_args=None):
         ],
         help="The image interpolation method to use for resizing images.",
     )
+    parser.add_argument(
+        "--arch",
+        type=str,
+        default="NV",
+        help="Training arch -> NV or DW.",
+    )
+    parser.add_argument(
+        "--precision",
+        type=str,
+        default="baseline",
+        help="Training precision -> baseline/mxfp8/nvfp4.",
+    )
 
     if input_args is not None:
         args = parser.parse_args(input_args)
