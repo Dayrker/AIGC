@@ -28,14 +28,14 @@ def convert_linear_to_dw(linear: nn.Linear, precision="baseline"):
     dwLinear = dw.modules.FcLayer(linear, precision)
     return nn.ModuleDict({"default": dwLinear, })
 
-def replace_lora_modules(model, arch="NV", precision="baseline"):
+def replace_lora_modules(model, arch="nv", precision="baseline"):
     for name, module in model.named_children():
         # 递归替换
         replace_lora_modules(module, arch, precision)
 
         # if isinstance(module, LoraLayer):
         if name in ["lora_A", "lora_B"]:
-            if arch == "NV":
+            if arch == "nv":
                 setattr(model, name, convert_linear_to_te(module["default"]))
             elif arch == "dw":
                 setattr(model, name, convert_linear_to_dw(module["default"], precision))

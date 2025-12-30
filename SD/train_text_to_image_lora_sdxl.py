@@ -977,7 +977,15 @@ def main(args):
     accelerator.wait_for_everyone()
     if accelerator.is_main_process:
         unet = unwrap_model(unet)
-        unet_lora_state_dict = convert_state_dict_to_diffusers(get_peft_model_state_dict(unet))
+
+        # 去掉DW导致的.default.raw_module
+        unet_lora_state_dict_ori = get_peft_model_state_dict(unet)
+        unet_lora_state_dict_noDW = {}
+        for k, v in unet_lora_state_dict_ori.items():
+            new_k = k.replace(".default.raw_module.", ".")
+            unet_lora_state_dict_noDW[new_k] = v
+
+        unet_lora_state_dict = convert_state_dict_to_diffusers(unet_lora_state_dict_noDW)
 
         if args.train_text_encoder:
             text_encoder_one = unwrap_model(text_encoder_one)

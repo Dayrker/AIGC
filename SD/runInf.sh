@@ -1,0 +1,1 @@
+python inference.py --lora_model dw/mxfp8/sdxl-naruto --cuda 0

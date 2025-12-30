@@ -2,7 +2,7 @@
 set -e
 # Needed to assign
 CUDA_DEVICES="4,5,6,7"
-ARCH="NV"
+ARCH="nv"
 PRECISION="baseline"
 
 # 参数解析
@@ -40,6 +40,7 @@ DATASET_NAME="/mnt/zhangchen/S3Precision/datasets/naruto-blip-captions"
 
 echo "Using CUDA_VISIBLE_DEVICES=$CUDA_DEVICES"
 echo "Using arch=$ARCH precision=$PRECISION -> Output dir=$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
 accelerate launch --num_processes=$NUM_PROCESSES train_text_to_image_lora_sdxl.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --dataset_name=$DATASET_NAME --caption_column="text" \
