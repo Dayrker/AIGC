@@ -1,0 +1,30 @@
+pipe.text_encoder: T5Encoder(
+  (token_embedding): Embedding(256384, 4096)
+  (dropout): Dropout(p=0.1, inplace=False)
+  (blocks): ModuleList(
+    (0-23): 24 x T5SelfAttention(
+      (norm1): T5LayerNorm()
+      (attn): T5Attention(
+        (q): Linear(in_features=4096, out_features=4096, bias=False)
+        (k): Linear(in_features=4096, out_features=4096, bias=False)
+        (v): Linear(in_features=4096, out_features=4096, bias=False)
+        (o): Linear(in_features=4096, out_features=4096, bias=False)
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (norm2): T5LayerNorm()
+      (ffn): T5FeedForward(
+        (gate): Sequential(
+          (0): Linear(in_features=4096, out_features=10240, bias=False)
+          (1): GELU()
+        )
+        (fc1): Linear(in_features=4096, out_features=10240, bias=False)
+        (fc2): Linear(in_features=10240, out_features=4096, bias=False)
+        (dropout): Dropout(p=0.1, inplace=False)
+      )
+      (pos_embedding): T5RelativeEmbedding(
+        (embedding): Embedding(32, 64)
+      )
+    )
+  )
+  (norm): T5LayerNorm()
+)
