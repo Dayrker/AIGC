@@ -68,7 +68,7 @@ def infer_batch(args, dataset,
         img = Image.open(ref_image_path).convert("RGB")
 
     frame_num = 25  # fps: 24 (frame_num need +1)
-    sample_steps = 10
+    sample_steps = 50
     outputs = []
     for _, data in enumerate(dataset):
         prompt   = data["caption"]
@@ -79,8 +79,6 @@ def infer_batch(args, dataset,
         SIZE = "1280*704" if size == "720p" else "832*480"
 
         # transformer engine
-        print("SIZE_CONFIGS:", SIZE_CONFIGS)
-        print("MAX_AREA_CONFIGS:", MAX_AREA_CONFIGS)
         content = getContent(args.arch, args.precision)
         with content:
             video = pipe.generate(
