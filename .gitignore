@@ -5,3 +5,4 @@
 
 # for WAN
 */output/*
+./WAN/Inference/__pycache__/*
