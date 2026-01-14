@@ -11,7 +11,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     # Get datasets
-    dataset = get_dataset(N_DATA=8, type="test")
+    dataset = get_dataset(N_DATA=24, type="test")
 
     # get outputs
     if len(args.cuda.split(",")) <= 1:

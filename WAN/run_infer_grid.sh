@@ -14,7 +14,7 @@ BATCH_SIZE=8
 
 ARCHS=(
   "NV"
-  # "DW"
+  "DW"
 )
 PRECISIONS=(
   "nvfp4"

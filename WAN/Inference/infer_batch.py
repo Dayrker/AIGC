@@ -62,6 +62,7 @@ def infer_batch(args, dataset,
     pipe = load_ti2v_pipeline(cfg, model, device_id=device_id)
     replace_modules(pipe.model, arch=arch, precision=precision)
     print(f"Replace modules over.")
+    # print(f"Replace modules over. model\n", pipe.model)
 
     img = None
     if ref_image_path:

@@ -1,8 +1,10 @@
+import os
 import torch.nn as nn
 
 ### convert models
 def convert_linear_to_te(linear: nn.Linear):
     from transformer_engine.pytorch import Linear as TElinear
+    os.environ["TE_INPUT_WEIGHT_EXPAND"] = "1"
 
     te_linear = TElinear(
         in_features  = linear.in_features,
@@ -28,13 +30,17 @@ def convert_dw_modules(module):
     import dw
     dw_mappings = {
         # nn.Conv2d: dw.ConvLayer,
-        nn.Conv3d: dw.Conv3dLayer,
-        # nn.LayerNorm: dw.LayernormLayer,
+        # nn.Conv3d: dw.Conv3dLayer,    # float dtype, no need
+        nn.LayerNorm: dw.LayernormLayer,
         # nn.GroupNorm: dw.GroupnormLayer,
         nn.SiLU: dw.SiLULayer,
         nn.GELU: dw.GeluLayer,
         # nn.Dropout: dw.DropoutLayer,
     }
+    os.environ["USE_DW_MULT"] = "1"
+    os.environ["USE_DW_ADDFLOAT"] = "1"
+    os.environ["USE_DW_POW"] = "1"
+    os.environ["USE_DW_RSQRT"] = "1"
 
     for k, v in dw_mappings.items():
         if isinstance(module, k):
@@ -49,7 +55,7 @@ def replace_modules(model, arch="NV", precision="baseline"):
         if name == "time_embedding" or name == "time_projection":
             continue
         # if name.isdigit():
-        #     if int(name) >= 1 and int(name) <= 34:
+        #     if int(name) >= 1 and int(name) <= 28:
         #         continue
 
         # print(f"Replacing module: {name} of module {module}. arch: {arch}")
