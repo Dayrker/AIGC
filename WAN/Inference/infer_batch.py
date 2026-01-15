@@ -1,4 +1,5 @@
 import os
+import torch
 from PIL import Image
 # Wan config
 from wan.configs import WAN_CONFIGS, SIZE_CONFIGS, MAX_AREA_CONFIGS
@@ -55,13 +56,15 @@ def infer_batch(args, dataset,
     size      = args.size
     arch      = args.arch
     precision = args.precision
+    # set env
     same_seed(42)
+    torch.cuda.set_device(f"cuda:{device_id}")
 
     # Load Pipeline & convert
     cfg = WAN_CONFIGS[task]
     pipe = load_ti2v_pipeline(cfg, model, device_id=device_id)
     replace_modules(pipe.model, arch=arch, precision=precision)
-    print(f"Replace modules over.")
+    # print(f"Replace modules over.")
     # print(f"Replace modules over. model\n", pipe.model)
 
     img = None
