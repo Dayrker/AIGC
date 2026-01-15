@@ -43,7 +43,7 @@ def load_ti2v_pipeline(cfg, model, device_id=0):
         t5_cpu=False,
         convert_model_dtype=True,
     )
-    print(f"Loading {pipe} over.")
+    # print(f"Loading {pipe} over.")
     return pipe
 
 
